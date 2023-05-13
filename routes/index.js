@@ -14,6 +14,7 @@ module.exports = (pool) => {
       const limit = 3
       const offset = (page - 1) * limit
       const pages = Math.ceil(rows/limit)
+      const url = req.url == '/' ? '/?page=1' : req.url
       const sql = `SELECT * FROM data ORDER BY id ASC LIMIT ${limit} OFFSET ${offset} `
       pool.query(sql, (err, row) => {
         if (err) {
@@ -21,7 +22,7 @@ module.exports = (pool) => {
         } else {
           // console.log(row.rows[0].date)
           const date = row.rows[0].date
-          res.render('index', { title: 'POSTGRE-Breads', data: row.rows, moment, page : page, pages:pages});
+          res.render('index', { title: 'POSTGRE-Breads', data: row.rows, moment, page : page, pages:pages, url: url});
         }
       })
     });
