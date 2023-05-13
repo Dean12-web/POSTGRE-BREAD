@@ -12,16 +12,7 @@
 
 <body>
     <div class="container">
-        <form>
-            <div class="row mb-3">
-                <label for="inputId" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkId" id="checkId">
-                    ID
-                </label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="id" name="id">
-                </div>
-            </div>
+        <form method="post" action="/add">
             <div class="row mb-3">
                 <label for="inputStr" class="col-sm-4 col-form-label">
                     <input type="checkbox" name="checkStr" id="checkStr">
@@ -54,10 +45,8 @@
                     <input type="checkbox" name="checkDate" id="checkDate">
                     Date
                 </label>
-                <div class="col-sm-4">
-                    <input type="date" class="form-control" id="startDate" name="startDate">
-                    to
-                    <input type="date" class="form-control" id="endDate" name="endDate">
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" id="date" name="date">
                 </div>
             </div>
             <div class="row mb-3">
@@ -66,10 +55,10 @@
                     Boolean
                 </label>
                 <div class="col-sm-8">
-                    <select class="form-select">
+                    <select name="boolean" id="boolean" class="form-select">
                         <option selected>Open this select menu</option>
-                        <option value="1">True</option>
-                        <option value="2">False</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
                     </select>
                 </div>
             </div>
