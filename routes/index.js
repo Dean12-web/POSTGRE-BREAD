@@ -35,9 +35,8 @@ module.exports = (pool) => {
     const integer = req.body.integer
     const float = req.body.float
     const date = req.body.date
-    let convertDate = moment(date).format('YYYY-MM-DD');
     const boolean = req.body.boolean
-    const sql = `INSERT INTO data(string,integer,float,date,boolean) VALUES('${string}', ${integer}, ${float},'${convertDate}',${boolean})`
+    const sql = `INSERT INTO data(string,integer,float,date,boolean) VALUES('${string}', ${integer}, ${float},'${date}',${boolean})`
     pool.query(sql,(err)=>{
       if(err){
         console.error(err)
@@ -47,6 +46,36 @@ module.exports = (pool) => {
       }
     });
   });
+
+  router.get('/edit/:id',(req,res,next)=>{
+    const id = req.params.id
+    const sql = `SELECT * FROM data WHERE id = ${id}`
+    pool.query(sql,(err,row)=>{
+      if(err){
+        console.error(err)
+      }else{
+        res.render('edit', {title : 'Edit', data : row.rows[0],moment})
+      }
+    });
+  })
+
+  router.post('/edit/:id',(req,res,next)=>{
+    const id = req.params.id
+    const string = req.body.string
+    const integer = req.body.integer
+    const float = req.body.float
+    const date = req.body.date
+    const boolean = req.body.boolean
+    let sql = `UPDATE data SET string= '${string}', integer = ${integer}, float = ${float},date = '${date}', boolean = ${boolean} WHERE id = ${id}`
+    pool.query(sql,(err)=>{
+      if(err){
+        console.error(err)
+      }else{
+        console.log('EDIT DATA SUCCESS')
+        res.redirect('/')
+      }
+    })
+  })
   return router
 }
 

@@ -12,68 +12,59 @@
     <div class="container">
         <h1>BREADS (Browse, Read, Update, Delete, Sort)</h1>
         <h4>Filters</h4>
-        <form>
+        <form action="" method="post">
             <div class="row mb-3">
                 <label for="inputId" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkId" id="checkId">
                     ID
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="id" name="id">
+                    <input style="background-color: grey;" type="text" class="form-control" id="id" name="id" value="<%= data.id %>" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputStr" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkStr" id="checkStr">
                     String
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="string" name="string">
+                    <input type="text" class="form-control" id="string" name="string" value="<%= data.string %>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputInt" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkInt" id="checkInt">
                     Integer
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="integer" name="integer">
+                    <input type="text" class="form-control" id="integer" name="integer" value="<%= data.integer %>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputFloat" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkFloat" id="checkFloat">
                     Float
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="float" name="float">
+                    <input type="text" class="form-control" id="float" name="float" value="<%= data.float %>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputDate" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkDate" id="checkDate">
                     Date
                 </label>
                 <div class="col-sm-4">
-                    <input type="date" class="form-control" id="startDate" name="startDate">
-                    to
-                    <input type="date" class="form-control" id="endDate" name="endDate">
+                    <input type="date" class="form-control" id="date" name="date" value="<%= moment(data.date).format('YYYY-MM-DD') %>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputBol" class="col-sm-4 col-form-label">
-                    <input type="checkbox" name="checkBol" id="checkBol">
                     Boolean
                 </label>
                 <div class="col-sm-8">
-                    <select class="form-select">
-                        <option selected>Open this select menu</option>
-                        <option value="1">True</option>
-                        <option value="2">False</option>
+                    <select name="boolean" id="boolean" class="form-select">
+                        <option value="true" <%= data.boolean == "true" ? "selected" : "" %>>True</option>
+                        <option value="false" <%= data.boolean == "false" ? "selected" : "" %>>False</option>
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <a href="/" class="btn btn-secondary">Back</a>
         </form>
     </div>
