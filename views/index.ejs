@@ -8,6 +8,18 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6ea2cb925f.js" crossorigin="anonymous"></script>
+    <style>
+      .sort-icon {
+        margin-left: 5px;
+      }
+      .sort-icon.asc:before {
+        content: "\f0de";
+      }
+      .sort-icon.desc:before {
+        content: "\f0dd";
+      }
+    </style>
 </head>
 
 <body>
@@ -82,49 +94,46 @@
   </div>
   <br>
   <div class="container">
-    <form action="/sort" method="post">
-      <div class="row mb-3">
-        <label for="column" class="col-sm-4 col-form-label">Sort by Column</label>
-        <div class="col-sm-8">
-          <select name="column" id="column" class="form-select">
-            <option value="">Choose the column</option>
-            <option value="id">ID</option>
-            <option value="string">String</option>
-            <option value="integer">Integer</option>
-            <option value="float">Float</option>
-            <option value="date">Date</option>
-            <option value="boolean">Boolean</option>
-          </select>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <label for="order" class="col-sm-4 col-form-label">Sort Order</label>
-        <div class="col-sm-8">
-          <select name="order" id="order" class="form-select">
-            <option value="">Choose the order</option>
-            <option value="asc">ASCENDING</option>
-            <option value="desc">DESCENDING</option>
-          </select>
-        </div>
-      </div>
-      <br>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="sumbit" class="btn btn-primary">SORT</button>
-      </div>
-    </form>
-  </div>
-  <br>
-  <div class="container">
     <table class="table table-striped table-bordered">
       <thead>
         <tr align="center">
-          <th scope="col">ID</th>
-          <th scope="col">String</th>
-          <th scope="col">Integer</th>
-          <th scope="col">Float</th>
-          <th scope="col">Date</th>
-          <th scope="col">Boolean</th>
-          <th scope="col">Action</th>
+          <th>
+            ID
+            <a href="?page=<%= page %>&sortby=id&sortorder=<%= sortDir === 'asc' && sortBy === 'id' ? 'desc' : 'asc' %>">
+              <span class="fa <%= sortDir === 'asc' && sortBy === 'id' ? 'fa-sort-up' : sortDir === 'desc' && sortBy === 'id' ? 'fa-sort-down' : 'fa-sort' %>"></span>
+            </a>
+          </th>
+          <th>
+            String
+            <a href="?page=<%= page %>&sortby=string&sortorder=<%= sortDir === 'asc' && sortBy === 'string' ? 'desc' : 'asc' %>">
+              <span class="fa <%= sortDir === 'asc' && sortBy === 'string' ? 'fa-sort-up' : sortDir === 'desc' && sortBy === 'string' ? 'fa-sort-down' : 'fa-sort' %>"></span>
+            </a>
+          </th>
+          <th>
+            Integer
+            <a href="?page=<%= page %>&sortby=integer&sortorder=<%= sortDir === 'asc' && sortBy === 'integer' ? 'desc' : 'asc' %>">
+              <span class="fa <%= sortDir === 'asc' && sortBy === 'integer' ? 'fa-sort-up' : sortDir === 'desc' && sortBy === 'integer' ? 'fa-sort-down' : 'fa-sort' %>"></span>
+            </a>
+          </th>
+          <th>
+            Float
+            <a href="?page=<%= page %>&sortby=float&sortorder=<%= sortDir === 'asc' && sortBy === 'float' ? 'desc' : 'asc' %>">
+              <span class="fa <%= sortDir === 'asc' && sortBy === 'float' ? 'fa-sort-up' : sortDir === 'desc' && sortBy === 'float' ? 'fa-sort-down' : 'fa-sort' %>"></span>
+            </a>
+          </th>
+          <th>
+            Date
+            <a href="?page=<%= page %>&sortby=date&sortorder=<%= sortDir === 'asc' && sortBy === 'date' ? 'desc' : 'asc' %>">
+              <span class="fa <%= sortDir === 'asc' && sortBy === 'date' ? 'fa-sort-up' : sortDir === 'desc' && sortBy === 'date' ? 'fa-sort-down' : 'fa-sort' %>"></span>
+            </a>
+          </th>
+          <th>
+            Boolean
+            <a href="?page=<%= page %>&sortby=boolean&sortorder=<%= sortDir === 'asc' && sortBy === 'boolean' ? 'desc' : 'asc' %>">
+              <span class="fa <%= sortDir === 'asc' && sortBy === 'boolean' ? 'fa-sort-up' : sortDir === 'desc' && sortBy === 'boolean' ? 'fa-sort-down' : 'fa-sort' %>"></span>
+            </a>
+          </th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
