@@ -5,59 +5,75 @@ const moment = require('moment')
 module.exports = (pool) => {
   /* GET home page. */
   router.get('/', function (req, res, next) {
+    // Pagination and search
+    const params = [];
+    let sortBy = req.query.sortby || 'id';
+    let sortDir = req.query.sortorder || 'asc';
 
-    // pagination and search
-    const params = []
+    // Remove duplicate sortby and sortorder parameters
+    const queryParams = new URLSearchParams(req.query);
+    queryParams.delete('sortby');
+    queryParams.delete('sortorder');
+
     if (req.query.checkId && req.query.id) {
-      params.push(`id = ${req.query.id}`)
+      params.push(`id = ${req.query.id}`);
     }
     if (req.query.checkStr && req.query.string) {
-      params.push(`string ILIKE '%${req.query.string}%'`)
+      params.push(`string ILIKE '%${req.query.string}%'`);
     }
     if (req.query.checkInt && req.query.integer) {
-      params.push(`integer = ${req.query.integer}`)
+      params.push(`integer = ${req.query.integer}`);
     }
     if (req.query.checkFloat && req.query.float) {
-      params.push(`float = ${req.query.float}`)
+      params.push(`float = ${req.query.float}`);
     }
     if (req.query.checkDate && req.query.startDate && req.query.endDate) {
-      params.push(`date BETWEEN '${req.query.startDate}' AND '${req.query.endDate}'`)
+      params.push(`date BETWEEN '${req.query.startDate}' AND '${req.query.endDate}'`);
     }
     if (req.query.checkBol && req.query.boolean) {
-      params.push(`boolean = '${req.query.boolean}'`)
+      params.push(`boolean = '${req.query.boolean}'`);
     }
 
-    let sqlCount = `SELECT COUNT(*) as total FROM data`
+    let sqlCount = `SELECT COUNT(*) as total FROM data`;
     if (params.length > 0) {
-      sqlCount += ` WHERE ${params.join(' AND ')}`
+      sqlCount += ` WHERE ${params.join(' AND ')}`;
     }
-    pool.query(sqlCount, [], (err, count) => {
-      const rows = count.rows[0].total
-      const page = req.query.page || 1
-      const limit = 3
-      const offset = (page - 1) * limit
-      const pages = Math.ceil(rows / limit)
-      const sortBy = req.query.sortby || 'id';
-      const sortDir = req.query.sortorder || 'asc';
-      // Define the initial sorting parameters
 
-      const url = req.url == '/' ? '/?page=1' : req.url // membuat limit pagination
-      let sql = `SELECT * FROM data`
+    pool.query(sqlCount, [], (err, count) => {
+      const rows = count.rows[0].total;
+      const page = req.query.page || 1;
+      const limit = 3;
+      const offset = (page - 1) * limit;
+      const pages = Math.ceil(rows / limit);
+      const urlSearchParams = new URLSearchParams(queryParams);
+      urlSearchParams.set('page', '1');
+      const url = `${req.path}?${urlSearchParams.toString()}`;
+      let sql = `SELECT * FROM data`;
       if (params.length > 0) {
-        sql += ` WHERE ${params.join(' AND ')}`
+        sql += ` WHERE ${params.join(' AND ')}`;
       }
-      sql += ` ORDER BY ${sortBy} ${sortDir} LIMIT ${limit} OFFSET ${offset};` 
+      sql += ` ORDER BY ${sortBy} ${sortDir} LIMIT ${limit} OFFSET ${offset};`;
+
       pool.query(sql, (err, row) => {
         if (err) {
-          console.error(err)
+          console.error(err);
         } else {
           res.render('index', {
-            title: 'POSTGRE-Breads', data: row.rows, moment, page: page, pages: pages, url: url, rows: rows, query: req.query, sortBy: sortBy, sortDir: sortDir
+            title: 'POSTGRE-Breads',
+            data: row.rows,
+            moment,
+            page: page,
+            pages: pages,
+            url: url,
+            query: req.query,
+            sortBy: sortBy,
+            sortDir: sortDir,
           });
         }
-      })
+      });
     });
   });
+
   // router.post('/', (req, res) => {
   //   const { column, order } = req.body
   //   const sqlCount = `SELECT COUNT (*) as total FROM data`
