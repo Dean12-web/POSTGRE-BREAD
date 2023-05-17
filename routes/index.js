@@ -10,10 +10,6 @@ module.exports = (pool) => {
     let sortBy = req.query.sortby || 'id';
     let sortDir = req.query.sortorder || 'asc';
 
-    // Remove duplicate sortby and sortorder parameters
-    const queryParams = new URLSearchParams(req.query);
-    queryParams.delete('sortby');
-    queryParams.delete('sortorder');
 
     if (req.query.checkId && req.query.id) {
       params.push(`id = ${req.query.id}`);
@@ -45,9 +41,13 @@ module.exports = (pool) => {
       const limit = 3;
       const offset = (page - 1) * limit;
       const pages = Math.ceil(rows / limit);
-      const urlSearchParams = new URLSearchParams(queryParams);
-      urlSearchParams.set('page', '1');
-      const url = `${req.path}?${urlSearchParams.toString()}`;
+      // Remove duplicate url for sortby and sortorder parameters
+      const queryParams = new URLSearchParams(req.query);
+      queryParams.delete('sortby');
+      queryParams.delete('sortorder');
+      queryParams.set('page', '1');
+      const url = `${req.path}?${queryParams.toString()}`;
+      console.log(url)
       let sql = `SELECT * FROM data`;
       if (params.length > 0) {
         sql += ` WHERE ${params.join(' AND ')}`;
@@ -73,6 +73,7 @@ module.exports = (pool) => {
       });
     });
   });
+
 
   // router.post('/', (req, res) => {
   //   const { column, order } = req.body
