@@ -10,7 +10,6 @@ module.exports = (pool) => {
     let sortBy = req.query.sortby || 'id';
     let sortDir = req.query.sortorder || 'asc';
 
-
     if (req.query.checkId && req.query.id) {
       params.push(`id = ${req.query.id}`);
     }
@@ -41,7 +40,7 @@ module.exports = (pool) => {
       const limit = 3;
       const offset = (page - 1) * limit;
       const pages = Math.ceil(rows / limit);
-      // Remove duplicate url for sortby and sortorder parameters
+      // Remove duplicate url for sortby and sortorder parameters using urlsearchparams
       const queryParams = new URLSearchParams(req.query);
       queryParams.delete('sortby');
       queryParams.delete('sortorder');
